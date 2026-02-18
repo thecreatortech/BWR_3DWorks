@@ -1,0 +1,20 @@
+PLACEHOLDER - Download actual STL files and replace this
+
+The website is configured to load STL files from this folder.
+Until you add real STL files, you may see "Loading..." or errors.
+
+QUICK START:
+1. Download FREE STL files from:
+   - Thingiverse.com (search "vase", "geometric", "parametric")
+   - Printables.com
+   - Cults3D.com
+
+2. Rename them to match the filenames in README.md
+
+3. Replace placeholder files with real .stl files
+
+Example good searches:
+- "minimalist vase"
+- "geometric sculpture"  
+- "parametric jewelry"
+- "architectural model"

@@ -1,0 +1,24 @@
+{
+	"name": "bwr-3d-works",
+	"version": "1.0.0",
+	"type": "module",
+	"description": "BWR 3D Works - Where Rebellion Meets Precision. Premium 3D printed objects with advanced WebGL PBR rendering.",
+	"main": "src/main.jsx",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview",
+		"lint": "eslint src --ext jsx,js"
+	},
+	"dependencies": {
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"three": "^0.182.0"
+	},
+	"devDependencies": {
+		"@vitejs/plugin-react": "^4.2.0",
+		"vite": "^5.0.0"
+	},
+	"author": "BWR 3D Works",
+	"license": "MIT"
+}
