@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import * as THREE from 'three';
-import { STLLoader } from 'three/examples/jsm/loaders/STLLoader.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { calculatePrice } from '../utils/pricing';
 
@@ -10,7 +10,7 @@ export const StudioPage = ({ setPage, addToCart }) => {
 	const [volumeCm3, setVolumeCm3] = useState(50);
 	const [price, setPrice] = useState(5000);
 	const [modelColor, setModelColor] = useState('#ff6b35');
-	const [uploadMode, setUploadMode] = useState('stl'); // 'stl' or 'image'
+	const [uploadMode, setUploadMode] = useState('glb'); // 'glb' or 'image'
 	const [imageFile, setImageFile] = useState(null);
 	const canvasRef = useRef(null);
 	const rendererRef = useRef(null);
@@ -64,74 +64,81 @@ export const StudioPage = ({ setPage, addToCart }) => {
 		dirLight.position.set(100, 100, 100);
 		scene.add(dirLight);
 
-		// Load STL file
-		const reader = new FileReader();
-		reader.onload = (e) => {
-			try {
-				const geometry = new STLLoader().parse(e.target.result);
-				geometry.computeBoundingBox();
-				geometry.computeVertexNormals();
+		// Load GLB file
+		const loader = new GLTFLoader();
+		const url = URL.createObjectURL(file);
+		loader.load(
+			url,
+			(gltf) => {
+				try {
+					const model = gltf.scene;
 
-				// Calculate volume and center geometry
-				const box = geometry.boundingBox;
-				const width = box.max.x - box.min.x;
-				const height = box.max.y - box.min.y;
-				const depth = box.max.z - box.min.z;
-				const calculatedVolume = width * height * depth;
+					// Calculate bounding box and volume
+					const box = new THREE.Box3().setFromObject(model);
+					const size = new THREE.Vector3();
+					box.getSize(size);
+					const calculatedVolume = size.x * size.y * size.z;
 
-				// Update volume if can be calculated
-				if (calculatedVolume > 0) {
-					setVolumeCm3(Math.round(calculatedVolume * 100) / 100);
+					// Update volume if can be calculated
+					if (calculatedVolume > 0) {
+						setVolumeCm3(Math.round(calculatedVolume * 100) / 100);
+					}
+
+					// Center model
+					const center = box.getCenter(new THREE.Vector3());
+					model.position.sub(center);
+
+					// Apply color to all meshes
+					model.traverse((child) => {
+						if (child.isMesh) {
+							if (!child.material.map) {
+								child.material.color.set(modelColor);
+							}
+							child.material.needsUpdate = true;
+						}
+					});
+
+					meshRef.current = model;
+					scene.clear();
+					scene.add(ambLight);
+					scene.add(dirLight);
+					scene.add(model);
+
+					// Auto-scale to fit view
+					const maxDim = Math.max(size.x, size.y, size.z);
+					const scale = 100 / maxDim;
+					model.scale.multiplyScalar(scale);
+
+					// Animation loop with OrbitControls
+					const animate = () => {
+						controls.update();
+						renderer.render(scene, camera);
+						requestAnimationFrame(animate);
+					};
+					animate();
+
+					// Handle resize
+					const handleResize = () => {
+						const w = canvasRef.current?.clientWidth || width;
+						const h = canvasRef.current?.clientHeight || height;
+						camera.aspect = w / h;
+						camera.updateProjectionMatrix();
+						renderer.setSize(w, h);
+					};
+					window.addEventListener('resize', handleResize);
+				} catch (err) {
+					console.error('Failed to load GLB:', err);
+					alert("Failed to load GLB file. Make sure it's a valid GLB file.");
+					URL.revokeObjectURL(url);
 				}
-
-				// Center geometry
-				geometry.center();
-
-				const material = new THREE.MeshPhongMaterial({
-					color: new THREE.Color(modelColor),
-					shininess: 100,
-					specular: 0x444444,
-				});
-
-				const mesh = new THREE.Mesh(geometry, material);
-				meshRef.current = mesh;
-				scene.clear();
-				scene.add(ambLight);
-				scene.add(dirLight);
-				scene.add(mesh);
-
-				// Auto-scale to fit view
-				const size = new THREE.Vector3();
-				geometry.computeBoundingBox();
-				box.getSize(size);
-				const maxDim = Math.max(size.x, size.y, size.z);
-				const scale = 100 / maxDim;
-				mesh.scale.multiplyScalar(scale);
-
-				// Animation loop with OrbitControls
-				const animate = () => {
-					controls.update();
-					renderer.render(scene, camera);
-					requestAnimationFrame(animate);
-				};
-				animate();
-
-				// Handle resize
-				const handleResize = () => {
-					const w = canvasRef.current?.clientWidth || width;
-					const h = canvasRef.current?.clientHeight || height;
-					camera.aspect = w / h;
-					camera.updateProjectionMatrix();
-					renderer.setSize(w, h);
-				};
-				window.addEventListener('resize', handleResize);
-				return () => window.removeEventListener('resize', handleResize);
-			} catch (err) {
-				console.error('Failed to load STL:', err);
-				alert("Failed to load STL file. Make sure it's a valid STL file.");
-			}
-		};
-		reader.readAsArrayBuffer(file);
+			},
+			undefined,
+			(err) => {
+				console.error('Failed to load GLB:', err);
+				alert("Failed to load GLB file. Make sure it's a valid GLB file.");
+				URL.revokeObjectURL(url);
+			},
+		);
 
 		return () => {
 			if (rendererRef.current && canvasRef.current) {
@@ -147,15 +154,22 @@ export const StudioPage = ({ setPage, addToCart }) => {
 	// Update mesh color when color picker changes
 	useEffect(() => {
 		if (meshRef.current) {
-			meshRef.current.material.color.set(modelColor);
+			meshRef.current.traverse((child) => {
+				if (child.isMesh && !child.material.map) {
+					child.material.color.set(modelColor);
+				}
+			});
 		}
 	}, [modelColor]);
 
 	const handleFileUpload = (e) => {
 		const uploadedFile = e.target.files?.[0];
 		if (uploadedFile) {
-			if (!uploadedFile.name.toLowerCase().endsWith('.stl')) {
-				alert('Please upload an STL file');
+			if (
+				!uploadedFile.name.toLowerCase().endsWith('.glb') &&
+				!uploadedFile.name.toLowerCase().endsWith('.gltf')
+			) {
+				alert('Please upload a GLB or GLTF file');
 				return;
 			}
 			setFile(uploadedFile);
@@ -247,23 +261,23 @@ export const StudioPage = ({ setPage, addToCart }) => {
 								}}
 							>
 								<button
-									onClick={() => setUploadMode('stl')}
+									onClick={() => setUploadMode('glb')}
 									style={{
 										padding: '12px 24px',
 										background: 'transparent',
 										border: 'none',
 										borderBottom:
-											uploadMode === 'stl'
+											uploadMode === 'glb'
 												? '2px solid #000'
 												: '2px solid transparent',
 										fontSize: 14,
-										fontWeight: uploadMode === 'stl' ? 600 : 400,
-										color: uploadMode === 'stl' ? '#000' : 'rgba(0,0,0,0.4)',
+										fontWeight: uploadMode === 'glb' ? 600 : 400,
+										color: uploadMode === 'glb' ? '#000' : 'rgba(0,0,0,0.4)',
 										cursor: 'pointer',
 										transition: 'all .2s',
 									}}
 								>
-									📁 Upload STL File
+									📁 Upload GLB File
 								</button>
 								<button
 									onClick={() => setUploadMode('image')}
@@ -286,8 +300,8 @@ export const StudioPage = ({ setPage, addToCart }) => {
 								</button>
 							</div>
 
-							{/* STL Upload */}
-							{uploadMode === 'stl' && (
+							{/* GLB Upload */}
+							{uploadMode === 'glb' && (
 								<div
 									style={{
 										border: '2px dashed #d6d6d6',
@@ -318,7 +332,7 @@ export const StudioPage = ({ setPage, addToCart }) => {
 								>
 									<input
 										type='file'
-										accept='.stl'
+										accept='.glb,.gltf'
 										onChange={handleFileUpload}
 										style={{ display: 'none' }}
 										id='file-upload'
@@ -347,7 +361,7 @@ export const StudioPage = ({ setPage, addToCart }) => {
 											Upload Your 3D Model
 										</div>
 										<div style={{ fontSize: 14, color: 'rgba(0,0,0,0.4)' }}>
-											Drop STL file here or click to browse
+											Drop GLB file here or click to browse
 										</div>
 									</label>
 								</div>
@@ -530,8 +544,8 @@ export const StudioPage = ({ setPage, addToCart }) => {
 									</button>
 								</div>
 
-								{/* Color Picker for STL */}
-								{uploadMode === 'stl' && file && (
+								{/* Color Picker for GLB */}
+								{uploadMode === 'glb' && file && (
 									<div
 										style={{
 											background: '#fff',
@@ -573,8 +587,8 @@ export const StudioPage = ({ setPage, addToCart }) => {
 									</div>
 								)}
 
-								{/* 3D Preview Canvas for STL */}
-								{uploadMode === 'stl' && file && (
+								{/* 3D Preview Canvas for GLB */}
+								{uploadMode === 'glb' && file && (
 									<div
 										style={{
 											background: '#f0f0f0',
@@ -623,7 +637,7 @@ export const StudioPage = ({ setPage, addToCart }) => {
 										color: 'rgba(0,0,0,0.5)',
 									}}
 								>
-									{uploadMode === 'stl' ? (
+									{uploadMode === 'glb' ? (
 										<>
 											<strong style={{ color: '#000' }}>💡 Tip:</strong> Drag
 											to rotate, scroll to zoom the 3D preview. Change the
@@ -644,8 +658,8 @@ export const StudioPage = ({ setPage, addToCart }) => {
 
 							{/* Right: Price & Details */}
 							<div>
-								{/* STL: Volume & Price */}
-								{uploadMode === 'stl' && file && (
+								{/* GLB: Volume & Price */}
+								{uploadMode === 'glb' && file && (
 									<>
 										{/* Volume */}
 										<div

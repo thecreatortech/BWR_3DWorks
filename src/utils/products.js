@@ -8,7 +8,7 @@ export const PRODUCTS = [
 		desc: 'A sculptural study in negative space. Fluid curvature meets mathematical precision. Printed at 0.05mm layer resolution — near-invisible surface topology.',
 		badge: 'Limited',
 		geom: 'vase',
-		stlPath: '/assets/models/orbital-vase.stl',
+		modelPath: '/assets/models/orbital-vase.glb',
 		sketchfabId: 'a8f91f71faff45fdbea9fe0e88ae77a6',
 		specs: [
 			['Material', 'PETG Matte'],
@@ -26,7 +26,7 @@ export const PRODUCTS = [
 		desc: 'Parametric stacking geometry. An architectural column at domestic scale. Twelve interleaving spirals resolve into a singular vertical statement.',
 		badge: 'New',
 		geom: 'helical',
-		stlPath: '/assets/models/helical-tower.stl',
+		modelPath: '/assets/models/helical-tower.glb',
 		sketchfabId: '9a59b82f98f34ae6a3a39b1b85c22fda',
 		specs: [
 			['Material', 'PLA+ Obsidian'],
@@ -44,7 +44,7 @@ export const PRODUCTS = [
 		desc: 'Pure form. 800 intersecting planes creating structural void. A meditation on presence and absence rendered in precision polymer.',
 		badge: '',
 		geom: 'sphere',
-		stlPath: '/assets/models/void-sphere.stl',
+		modelPath: '/assets/models/void-sphere.glb',
 		sketchfabId: 'd425eb3d30bf435faa4b96b36e1a3ab3',
 		specs: [
 			['Material', 'PETG Pearl'],
@@ -62,7 +62,7 @@ export const PRODUCTS = [
 		desc: 'Wearable precision engineering. Printed at 0.08mm for micro-flex. The structure breathes with your movement — rigid yet alive.',
 		badge: 'Sold Out',
 		geom: 'ring',
-		stlPath: '/assets/models/lattice-cuff.stl',
+		modelPath: '/assets/models/lattice-cuff.glb',
 		sketchfabId: 'f8e0deaa28694e479bb01d8028da47cb',
 		specs: [
 			['Material', 'Flexible TPU'],
@@ -80,7 +80,7 @@ export const PRODUCTS = [
 		desc: 'A plinth that is itself the sculpture. Monolithic black. The base becomes the statement — commanding negative space with gravitational authority.',
 		badge: 'Limited',
 		geom: 'vase',
-		stlPath: '/assets/models/arc-plinth.stl',
+		modelPath: '/assets/models/arc-plinth.glb',
 		sketchfabId: '1e1d7b4d5e374a8db97de8a6fc0ef0dc',
 		specs: [
 			['Material', 'PLA Matte Black'],
@@ -98,7 +98,7 @@ export const PRODUCTS = [
 		desc: 'Optical interference made wearable. Two concentric lattice layers produce shifting moiré patterns as light and angle change.',
 		badge: '',
 		geom: 'torus',
-		stlPath: '/assets/models/moire-pendant.stl',
+		modelPath: '/assets/models/moire-pendant.glb',
 		sketchfabId: 'b07ad48b1b9941939e9a9d9c93c5ea73',
 		specs: [
 			['Material', 'Transparent PETG'],
@@ -116,7 +116,7 @@ export const PRODUCTS = [
 		desc: 'Infinitely complex surface topology. L-system branching resolved at 0.05mm render depth. A functional object that rewards prolonged study.',
 		badge: 'New',
 		geom: 'sphere',
-		stlPath: '/assets/models/fractal-bowl.stl',
+		modelPath: '/assets/models/fractal-bowl.glb',
 		sketchfabId: '3b33e7b0d57041d79ea7ef6a65534e1b',
 		specs: [
 			['Material', 'PETG Frost'],
@@ -134,7 +134,7 @@ export const PRODUCTS = [
 		desc: 'Architectural column at 1:10 scale. Museum-grade finish. Twelve fluted ribs dissolve into a capital of impossible delicacy at 0.04mm.',
 		badge: 'Limited',
 		geom: 'helical',
-		stlPath: '/assets/models/column-series.stl',
+		modelPath: '/assets/models/column-series.glb',
 		sketchfabId: 'c8f5c5d3a2c74c21abfae30ffd4cef3c',
 		specs: [
 			['Material', 'PLA+ Marble'],
@@ -152,7 +152,7 @@ export const PRODUCTS = [
 		desc: 'Parametric mesh structure. Sized to order. 340 interconnected nodes — individually modelled and resolved into a unified wearable topology.',
 		badge: '',
 		geom: 'ring',
-		stlPath: '/assets/models/mesh-ring.stl',
+		modelPath: '/assets/models/mesh-ring.glb',
 		sketchfabId: 'f8e0deaa28694e479bb01d8028da47cb',
 		specs: [
 			['Material', 'Nylon PA12'],

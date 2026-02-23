@@ -8,7 +8,8 @@ import { Navbar } from './components/common/Navbar';
 import { CartSidebar } from './components/common/CartSidebar';
 import { Footer } from './components/common/Footer';
 import { GLCanvas } from './components/common/GLCanvas';
-import { STLViewer } from './components/common/STLViewer';
+import { GLBViewer } from './components/common/GLBViewer';
+import { AnimatedCarViewer } from './components/common/AnimatedCarViewer';
 import { HeroBgCanvas } from './components/common/HeroBgCanvas';
 
 // ===== SECTIONS & UTILS =====
@@ -297,13 +298,12 @@ const HomePage = ({ setPage, addToCart }) => {
 						width: '60%',
 						height: '100%',
 						zIndex: 2,
-						display: 'none',
+						display: 'block',
 					}}
 					className='desktop-only'
 				>
-					<STLViewer
-						modelPath='/assets/models/moo.stl'
-						color='#f0f0f0'
+					<AnimatedCarViewer
+						modelPath='/assets/models/McLaren_F1.glb'
 						style={{ width: '100%', height: '100%' }}
 					/>
 				</div>
@@ -540,8 +540,8 @@ const HomePage = ({ setPage, addToCart }) => {
 							borderRadius: 2,
 						}}
 					>
-						<STLViewer
-							modelPath='/assets/models/orbital-vase.stl'
+						<GLBViewer
+							modelPath='/assets/models/orbital-vase.glb'
 							color='#111111'
 							style={{ width: '100%', height: '100%' }}
 						/>
@@ -1320,8 +1320,8 @@ const ProductsPage = ({ setPage, addToCart }) => {
 										overflow: 'hidden',
 									}}
 								>
-									<STLViewer
-										modelPath={prod.stlPath}
+									<GLBViewer
+										modelPath={prod.modelPath}
 										color='#222222'
 										style={{ width: '100%', height: '100%' }}
 									/>
@@ -1440,8 +1440,8 @@ const ProductPage = ({ product, setPage, addToCart }) => {
 							overflow: 'hidden',
 						}}
 					>
-						<STLViewer
-							modelPath={prod.stlPath}
+						<GLBViewer
+							modelPath={prod.modelPath}
 							color='#1a1a1a'
 							style={{ width: '100%', height: '100%' }}
 						/>

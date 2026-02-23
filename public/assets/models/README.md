@@ -1,22 +1,22 @@
 # 3D Model Assets
 
-Place your STL files in this folder. Each product should have a corresponding STL file.
+Place your GLB files in this folder. Each product should have a corresponding GLB file.
 
 ## File Naming Convention
 
-- `orbital-vase.stl` - Orbital Vase No.7
-- `helical-tower.stl` - Helical Tower
-- `void-sphere.stl` - Void Sphere
-- `lattice-cuff.stl` - Lattice Cuff
-- `arc-plinth.stl` - Arc Plinth
-- `moire-pendant.stl` - Moiré Pendant
-- `fractal-bowl.stl` - Fractal Bowl
-- `column-series.stl` - Column Series I
-- `mesh-ring.stl` - Mesh Ring
+- `orbital-vase.glb` - Orbital Vase No.7
+- `helical-tower.glb` - Helical Tower
+- `void-sphere.glb` - Void Sphere
+- `lattice-cuff.glb` - Lattice Cuff
+- `arc-plinth.glb` - Arc Plinth
+- `moire-pendant.glb` - Moiré Pendant
+- `fractal-bowl.glb` - Fractal Bowl
+- `column-series.glb` - Column Series I
+- `mesh-ring.glb` - Mesh Ring
 
-## AI Image Generation Prompts (for conversion to STL)
+## AI Image Generation Prompts (for conversion to GLB)
 
-Use these prompts with **MidJourney, DALL-E 3, or Stable Diffusion**, then convert to STL using:
+Use these prompts with **MidJourney, DALL-E 3, or Stable Diffusion**, then convert to GLB using:
 
 - **Rodin AI** (https://hyperhuman.deemos.com/rodin)
 - **3DFY.ai** (https://3dfy.ai/)

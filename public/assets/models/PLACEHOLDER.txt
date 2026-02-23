@@ -1,17 +1,22 @@
-PLACEHOLDER - Download actual STL files and replace this
+PLACEHOLDER - Download actual GLB files and replace this
 
-The website is configured to load STL files from this folder.
-Until you add real STL files, you may see "Loading..." or errors.
+The website is configured to load GLB files from this folder.
+Until you add real GLB files, you may see "Loading..." or errors.
 
 QUICK START:
-1. Download FREE STL files from:
-   - Thingiverse.com (search "vase", "geometric", "parametric")
+1. Download FREE 3D model files from:
+   - Sketchfab.com (download as GLB/GLTF)
+   - Thingiverse.com (download STL, then convert to GLB)
    - Printables.com
-   - Cults3D.com
+   - CGTrader.com
 
 2. Rename them to match the filenames in README.md
 
-3. Replace placeholder files with real .stl files
+3. Replace placeholder files with real .glb files
+
+Convert STL to GLB using:
+- https://products.aspose.app/3d/conversion/stl-to-glb
+- Blender (File > Export > glTF 2.0)
 
 Example good searches:
 - "minimalist vase"
