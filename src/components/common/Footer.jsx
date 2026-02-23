@@ -1,7 +1,9 @@
-export const Footer = ({ setPage }) => (
+import { Link } from 'react-router-dom';
+
+export const Footer = () => (
 	<footer
 		data-dark
-		style={{ background: '#000', padding: 'clamp(40px 16px, 8vw 5vw, 80px 52px 40px)' }}
+		style={{ background: '#000', padding: 'clamp(40px, 8vw, 80px) clamp(16px, 5vw, 52px) 0' }}
 	>
 		<div
 			style={{
@@ -20,7 +22,7 @@ export const Footer = ({ setPage }) => (
 							fontFamily: 'var(--font-display)',
 							fontSize: 'clamp(18px, 3vw, 24px)',
 							fontWeight: 400,
-							color: '#fff',
+							color: '#ffffffff',
 						}}
 					>
 						BWR
@@ -32,7 +34,7 @@ export const Footer = ({ setPage }) => (
 							fontWeight: 600,
 							letterSpacing: '0.08em',
 							textTransform: 'uppercase',
-							color: 'rgba(255,255,255,0.4)',
+							color: 'rgba(255, 255, 255, 1)',
 						}}
 					>
 						3D Works
@@ -45,27 +47,43 @@ export const Footer = ({ setPage }) => (
 						color: 'rgba(255,255,255,0.3)',
 						maxWidth: 260,
 						lineHeight: 1.7,
+						marginBottom: 16,
 					}}
 				>
-					Where Rebellion Meets Precision. Limited edition 3D objects engineered to
-					perfection.
+					Craft Objects That Mean Something. Premium 3D printed gifts,
+					nameplates & sculptures from Bengaluru, India.
 				</p>
+				<div
+					style={{
+						fontSize: 'clamp(10px, 1.2vw, 12px)',
+						color: 'rgba(255,255,255,0.25)',
+						display: 'flex',
+						alignItems: 'center',
+						gap: 6,
+					}}
+				>
+					<svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+						<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+						<circle cx={12} cy={10} r={3} />
+					</svg>
+					Bengaluru, India
+				</div>
 			</div>
 			{[
 				[
 					'Collection',
-					['Home', 'Products', 'Limited', 'Wearables'],
-					['home', 'products', 'products', 'products'],
+					['Nameplates', 'Milestones', 'Spiritual', 'Desk', 'Wedding'],
+					['/products', '/products', '/products', '/products', '/products'],
 				],
 				[
-					'Studio',
-					['Our Story', 'Process', 'Commissions', 'Contact'],
-					['about', 'about', 'about', 'contact'],
+					'Company',
+					['Our Story', 'Studio', 'Contact', 'Account'],
+					['/about', '/studio', '/contact', '/account'],
 				],
 				[
 					'Info',
 					['Shipping', 'Returns', 'Care', 'FAQ'],
-					['contact', 'contact', 'contact', 'contact'],
+					['/contact', '/contact', '/contact', '/contact'],
 				],
 			].map(([title, links, pages]) => (
 				<div key={title}>
@@ -91,9 +109,9 @@ export const Footer = ({ setPage }) => (
 					>
 						{links.map((l, i) => (
 							<li key={l}>
-								<a
+								<Link
+									to={pages[i]}
 									data-clickable
-									onClick={() => setPage(pages[i])}
 									style={{
 										fontSize: 'clamp(12px, 1.5vw, 14px)',
 										fontWeight: 300,
@@ -108,21 +126,49 @@ export const Footer = ({ setPage }) => (
 									}
 								>
 									{l}
-								</a>
+								</Link>
 							</li>
 						))}
 					</ul>
 				</div>
 			))}
 		</div>
+
+		{/* Giant BWR text — Antigravity-style */}
+		<div
+			style={{
+				padding: 'clamp(40px, 8vw, 80px) 0 clamp(20px, 4vw, 40px)',
+				overflow: 'hidden',
+				position: 'relative',
+			}}
+		>
+			<div
+				style={{
+					fontFamily: 'var(--font-display)',
+					fontSize: 'clamp(100px, 22vw, 320px)',
+					fontWeight: 400,
+					lineHeight: 0.85,
+					letterSpacing: '-0.03em',
+					color: 'rgba(255, 255, 255, 1)',
+					textAlign: 'center',
+					userSelect: 'none',
+					whiteSpace: 'nowrap',
+				}}
+			>
+				BWR
+			</div>
+		</div>
+
 		<div
 			style={{
 				display: 'flex',
 				justifyContent: 'space-between',
 				alignItems: 'center',
-				paddingTop: 'clamp(20px, 3vw, 30px)',
+				paddingTop: 'clamp(16px, 2vw, 24px)',
+				paddingBottom: 'clamp(16px, 2vw, 24px)',
 				flexDirection: 'column',
-				gap: 'clamp(12px, 2vw, 16px)',
+				gap: 'clamp(8px, 1.5vw, 12px)',
+				borderTop: '1px solid rgba(255,255,255,0.05)',
 			}}
 			className='footer-bottom'
 		>
@@ -134,16 +180,16 @@ export const Footer = ({ setPage }) => (
 					textAlign: 'center',
 				}}
 			>
-				© 2024 BWR 3D Works. Where Rebellion Meets Precision.
+				© 2025 BWR 3D Works. Craft Objects That Mean Something.
 			</div>
 			<div
 				style={{
 					fontSize: 'clamp(10px, 1.5vw, 12px)',
-					color: 'rgba(255,255,255,0.2)',
+					color: 'rgba(255,255,255,0.15)',
 					textAlign: 'center',
 				}}
 			>
-				Limited editions · Precision objects
+				Premium 3D printing · Bengaluru, India
 			</div>
 		</div>
 	</footer>

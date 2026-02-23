@@ -1,4 +1,7 @@
-export const CartSidebar = ({ cart, onClose, onRemove, setPage }) => {
+import { useNavigate } from 'react-router-dom';
+
+export const CartSidebar = ({ cart, onClose, onRemove, onUpdateQty }) => {
+	const navigate = useNavigate();
 	const total = cart.reduce((s, c) => s + c.price * (c.qty || 1), 0);
 	return (
 		<>
@@ -14,18 +17,20 @@ export const CartSidebar = ({ cart, onClose, onRemove, setPage }) => {
 				}}
 			/>
 			<div
+				className='cart-sidebar'
 				style={{
 					position: 'fixed',
 					top: 0,
 					right: 0,
 					bottom: 0,
 					width: 420,
+					maxWidth: '100%',
 					background: '#fff',
 					zIndex: 9001,
 					display: 'flex',
 					flexDirection: 'column',
 					boxShadow: '-20px 0 60px rgba(0,0,0,0.15)',
-					animation: 'slideUp .4s cubic-bezier(0.22, 1, 0.36, 1)',
+					animation: 'slideInRight .4s cubic-bezier(0.22, 1, 0.36, 1)',
 				}}
 			>
 				<div
@@ -33,7 +38,7 @@ export const CartSidebar = ({ cart, onClose, onRemove, setPage }) => {
 						display: 'flex',
 						alignItems: 'center',
 						justifyContent: 'space-between',
-						padding: '28px 36px',
+						padding: 'clamp(20px, 4vw, 28px) clamp(20px, 5vw, 36px)',
 						borderBottom: '1px solid #ebebeb',
 					}}
 				>
@@ -69,9 +74,10 @@ export const CartSidebar = ({ cart, onClose, onRemove, setPage }) => {
 					</button>
 				</div>
 
-				<div style={{ flex: 1, overflowY: 'auto', padding: '28px 36px' }}>
+				<div style={{ flex: 1, overflowY: 'auto', padding: 'clamp(16px, 4vw, 28px) clamp(20px, 5vw, 36px)' }}>
 					{cart.length === 0 ? (
 						<div style={{ textAlign: 'center', padding: '80px 0' }}>
+							<div style={{ fontSize: 48, marginBottom: 16, opacity: 0.15 }}>🛒</div>
 							<p style={{ fontSize: 14, fontWeight: 300, color: 'rgba(0,0,0,0.35)' }}>
 								Your cart is empty
 							</p>
@@ -82,7 +88,7 @@ export const CartSidebar = ({ cart, onClose, onRemove, setPage }) => {
 								key={i}
 								style={{
 									display: 'flex',
-									gap: 18,
+									gap: 16,
 									padding: '20px 0',
 									borderBottom: '1px solid #ebebeb',
 									animation: 'csIn .35s',
@@ -99,14 +105,76 @@ export const CartSidebar = ({ cart, onClose, onRemove, setPage }) => {
 									>
 										{item.name}
 									</div>
+									{/* Quantity controls */}
 									<div
 										style={{
-											fontSize: 12,
-											color: 'rgba(0,0,0,0.35)',
+											display: 'flex',
+											alignItems: 'center',
+											gap: 0,
 											marginBottom: 10,
+											marginTop: 8,
 										}}
 									>
-										Qty {item.qty || 1}
+										<button
+											data-clickable
+											onClick={() => onUpdateQty(i, (item.qty || 1) - 1)}
+											style={{
+												width: 32,
+												height: 32,
+												background: '#f5f5f5',
+												border: '1px solid #ebebeb',
+												borderRadius: '4px 0 0 4px',
+												cursor: 'pointer',
+												fontSize: 16,
+												fontWeight: 400,
+												color: '#000',
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center',
+												transition: 'background .2s',
+											}}
+										>
+											−
+										</button>
+										<div
+											style={{
+												width: 40,
+												height: 32,
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center',
+												background: '#fff',
+												border: '1px solid #ebebeb',
+												borderLeft: 'none',
+												borderRight: 'none',
+												fontSize: 13,
+												fontWeight: 600,
+												color: '#000',
+											}}
+										>
+											{item.qty || 1}
+										</div>
+										<button
+											data-clickable
+											onClick={() => onUpdateQty(i, (item.qty || 1) + 1)}
+											style={{
+												width: 32,
+												height: 32,
+												background: '#f5f5f5',
+												border: '1px solid #ebebeb',
+												borderRadius: '0 4px 4px 0',
+												cursor: 'pointer',
+												fontSize: 16,
+												fontWeight: 400,
+												color: '#000',
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center',
+												transition: 'background .2s',
+											}}
+										>
+											+
+										</button>
 									</div>
 									<div style={{ fontSize: 18, fontWeight: 300, color: '#000' }}>
 										${item.price * (item.qty || 1)}
@@ -123,6 +191,8 @@ export const CartSidebar = ({ cart, onClose, onRemove, setPage }) => {
 										color: 'rgba(0,0,0,0.25)',
 										cursor: 'pointer',
 										fontFamily: 'var(--font-sans)',
+										alignSelf: 'flex-start',
+										padding: '4px 0',
 									}}
 								>
 									Remove
@@ -132,7 +202,7 @@ export const CartSidebar = ({ cart, onClose, onRemove, setPage }) => {
 					)}
 				</div>
 
-				<div style={{ padding: '24px 36px', borderTop: '1px solid #ebebeb' }}>
+				<div style={{ padding: 'clamp(16px, 4vw, 24px) clamp(20px, 5vw, 36px)', borderTop: '1px solid #ebebeb' }}>
 					<div
 						style={{
 							display: 'flex',
@@ -154,7 +224,7 @@ export const CartSidebar = ({ cart, onClose, onRemove, setPage }) => {
 						<span
 							style={{
 								fontFamily: 'var(--font-display)',
-								fontSize: 36,
+								fontSize: 'clamp(28px, 6vw, 36px)',
 								fontWeight: 400,
 								letterSpacing: '-0.02em',
 							}}
@@ -167,7 +237,7 @@ export const CartSidebar = ({ cart, onClose, onRemove, setPage }) => {
 						className='btn btn-dark btn-full'
 						onClick={() => {
 							onClose();
-							setPage('checkout');
+							navigate('/checkout');
 						}}
 						style={{ fontSize: 14 }}
 					>
@@ -177,7 +247,7 @@ export const CartSidebar = ({ cart, onClose, onRemove, setPage }) => {
 						data-clickable
 						onClick={() => {
 							onClose();
-							setPage('products');
+							navigate('/products');
 						}}
 						style={{
 							width: '100%',

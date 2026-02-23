@@ -1,5 +1,3 @@
-import { GLOBAL_STYLES } from '../../utils/styles';
-
-export const GlobalStyles = () => {
-	return <style>{GLOBAL_STYLES}</style>;
-};
+// GlobalStyles is now loaded via index.css import in main.jsx
+// This component is kept for backward compatibility but renders nothing
+export const GlobalStyles = () => null;

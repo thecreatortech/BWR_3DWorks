@@ -3,6 +3,58 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader.js';
 
+const ModelLoader = ({ progress }) => (
+	<div
+		className='model-loader'
+		style={{
+			position: 'absolute',
+			inset: 0,
+			display: 'flex',
+			alignItems: 'center',
+			justifyContent: 'center',
+			flexDirection: 'column',
+			gap: 16,
+			background: 'rgba(240,240,240,0.95)',
+			zIndex: 5,
+		}}
+	>
+		<div
+			style={{
+				width: 44,
+				height: 44,
+				border: '3px solid #ebebeb',
+				borderTop: '3px solid #000',
+				borderRadius: '50%',
+				animation: 'spin 0.8s linear infinite',
+			}}
+		/>
+		<div
+			style={{
+				fontSize: 11,
+				fontWeight: 600,
+				letterSpacing: '.14em',
+				textTransform: 'uppercase',
+				color: 'rgba(0,0,0,0.35)',
+			}}
+		>
+			Loading 3D Model
+		</div>
+		{progress > 0 && progress < 100 && (
+			<div style={{ width: 120, height: 3, background: '#ebebeb', borderRadius: 2, overflow: 'hidden' }}>
+				<div
+					style={{
+						width: `${progress}%`,
+						height: '100%',
+						background: '#000',
+						borderRadius: 2,
+						transition: 'width .3s ease',
+					}}
+				/>
+			</div>
+		)}
+	</div>
+);
+
 export const STLViewer = ({ modelPath, color = '#ffffff', style, className }) => {
 	const mountRef = useRef(null);
 	const sceneRef = useRef(null);
@@ -10,6 +62,7 @@ export const STLViewer = ({ modelPath, color = '#ffffff', style, className }) =>
 	const controlsRef = useRef(null);
 	const meshRef = useRef(null);
 	const [loading, setLoading] = useState(true);
+	const [progress, setProgress] = useState(0);
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
@@ -93,7 +146,11 @@ export const STLViewer = ({ modelPath, color = '#ffffff', style, className }) =>
 				scene.add(mesh);
 				setLoading(false);
 			},
-			undefined,
+			(xhr) => {
+				if (xhr.total > 0) {
+					setProgress(Math.round((xhr.loaded / xhr.total) * 100));
+				}
+			},
 			(err) => {
 				console.error('Error loading STL:', err);
 				setError('Failed to load 3D model');
@@ -102,8 +159,9 @@ export const STLViewer = ({ modelPath, color = '#ffffff', style, className }) =>
 		);
 
 		// Animation loop
+		let animId;
 		function animate() {
-			requestAnimationFrame(animate);
+			animId = requestAnimationFrame(animate);
 			controls.update();
 			renderer.render(scene, camera);
 		}
@@ -122,6 +180,7 @@ export const STLViewer = ({ modelPath, color = '#ffffff', style, className }) =>
 
 		// Cleanup
 		return () => {
+			cancelAnimationFrame(animId);
 			window.removeEventListener('resize', handleResize);
 			if (mountRef.current && renderer.domElement) {
 				mountRef.current.removeChild(renderer.domElement);
@@ -149,32 +208,24 @@ export const STLViewer = ({ modelPath, color = '#ffffff', style, className }) =>
 			}}
 			className={className}
 		>
-			{loading && (
-				<div
-					style={{
-						position: 'absolute',
-						top: '50%',
-						left: '50%',
-						transform: 'translate(-50%, -50%)',
-						fontSize: 14,
-						color: '#999',
-					}}
-				>
-					Loading 3D model...
-				</div>
-			)}
+			{loading && <ModelLoader progress={progress} />}
 			{error && (
 				<div
 					style={{
 						position: 'absolute',
-						top: '50%',
-						left: '50%',
-						transform: 'translate(-50%, -50%)',
-						fontSize: 14,
-						color: '#999',
+						inset: 0,
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						flexDirection: 'column',
+						gap: 12,
+						background: 'rgba(240,240,240,0.95)',
 					}}
 				>
-					{error}
+					<div style={{ fontSize: 32, opacity: 0.3 }}>⚠</div>
+					<div style={{ fontSize: 13, color: 'rgba(0,0,0,0.4)', fontWeight: 500 }}>
+						{error}
+					</div>
 				</div>
 			)}
 		</div>
