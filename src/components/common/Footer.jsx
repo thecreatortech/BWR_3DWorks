@@ -13,7 +13,7 @@ export const Footer = () => (
 				paddingBottom: 'clamp(40px, 6vw, 60px)',
 				borderBottom: '1px solid rgba(255,255,255,0.07)',
 			}}
-			className='grid-col-2'
+			className='grid-col-4'
 		>
 			<div>
 				<div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
@@ -155,7 +155,7 @@ export const Footer = () => (
 					whiteSpace: 'nowrap',
 				}}
 			>
-				BWR
+				B.W.R
 			</div>
 		</div>
 

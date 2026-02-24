@@ -19,8 +19,18 @@ export default function Contact() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		// Compose email
+		const subject = encodeURIComponent(`[BWR 3D Works] ${formData.projectType} Inquiry`);
+		const body = encodeURIComponent(
+			`Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone || 'N/A'}\nProject: ${formData.projectType}\n\n${formData.message}`
+		);
+		window.open(`mailto:hello@bwr3dworks.com?subject=${subject}&body=${body}`, '_blank');
 		setTimeout(() => setSubmitted(true), 800);
 	};
+
+	const whatsAppMsg = encodeURIComponent(
+		`Hi BWR 3D Works! I'm interested in ${formData.projectType}. ${formData.message ? formData.message.substring(0, 200) : ''}`
+	);
 
 	return (
 		<div style={{ paddingTop: 68, minHeight: '100vh', background: '#fff' }}>
@@ -486,6 +496,22 @@ export default function Contact() {
 									>
 										Send Message →
 									</button>
+									{/* WhatsApp button */}
+									<a
+										href={`https://wa.me/918041417722?text=${whatsAppMsg}`}
+										target="_blank" rel="noopener noreferrer"
+										style={{
+											display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+											width: '100%', padding: 'clamp(14px, 1.5vw, 18px)',
+											background: '#25D366', color: '#fff', border: 'none', borderRadius: 4,
+											fontSize: 'clamp(11px, 1.5vw, 14px)', fontWeight: 500,
+											textDecoration: 'none', marginTop: 12, transition: 'opacity .2s',
+										}}
+										onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
+										onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+									>
+										💬 Or message us on WhatsApp
+									</a>
 								</form>
 							) : (
 								<div style={{ textAlign: 'center', padding: '80px 40px' }}>

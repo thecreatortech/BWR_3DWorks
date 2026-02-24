@@ -94,7 +94,7 @@ export default function Home({ addToCart }) {
 							}}>
 								Explore Collection
 							</Link>
-							<Link to='/products/1' className='btn btn-dark' data-clickable style={{
+							<Link to='/products/premium-architectural-nameplate' className='btn btn-dark' data-clickable style={{
 								justifyContent: 'center', width: '100%',
 								border: '1px solid rgba(255,255,255,0.15)',
 							}}>
@@ -339,7 +339,7 @@ export default function Home({ addToCart }) {
 						{PRODUCTS.slice(0, 3).map((prod, i) => (
 							<div key={prod.id} className={`reveal d${i}`}>
 								<Link
-									to={`/products/${prod.id}`}
+									to={`/products/${prod.slug}`}
 									style={{
 										display: 'block',
 										height: 'clamp(250px, 45vw, 380px)',
@@ -380,7 +380,7 @@ export default function Home({ addToCart }) {
 										</span>
 									)}
 								</Link>
-								<Link to={`/products/${prod.id}`} style={{
+								<Link to={`/products/${prod.slug}`} style={{
 									fontSize: 'clamp(14px, 2.5vw, 16px)',
 									fontWeight: 500,
 									color: '#000',
