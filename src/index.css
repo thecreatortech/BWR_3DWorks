@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@200;300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@200;300;400;500;600&display=swap');
 
 /* ============================
    RESET & ROOT
@@ -19,8 +19,12 @@
   --gray-900: #111;
   --black: #000000;
   --accent: #1a1a1a;
+  --gold: #C9A96E;
+  --gold-light: #E8D5A8;
+  --gold-dark: #A68B4B;
   --font-sans: 'DM Sans', -apple-system, sans-serif;
   --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-heading: 'Playfair Display', Georgia, serif;
   --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-smooth: cubic-bezier(0.65, 0, 0.35, 1);
@@ -78,7 +82,7 @@ body {
 .btn::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.12); opacity: 0; transition: opacity .3s; }
 .btn:hover::after { opacity: 1; }
 .btn:hover { transform: translateY(-2px); }
-.btn:active { transform: translateY(0); }
+.btn:active { transform: translateY(1px) scale(0.98); transition-duration: .1s; }
 .btn-white { background: var(--white); color: var(--black); }
 .btn-white:hover { box-shadow: 0 8px 32px rgba(255,255,255,0.25); }
 .btn-white::after { background: rgba(0,0,0,0.05); }
@@ -86,23 +90,119 @@ body {
 .btn-ghost:hover { box-shadow: 0 8px 32px rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.4); }
 .btn-dark { background: var(--black); color: var(--white); }
 .btn-dark:hover { box-shadow: 0 8px 36px rgba(0,0,0,0.3); }
+.btn-gold { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #fff; }
+.btn-gold:hover { box-shadow: 0 8px 32px rgba(201,169,110,0.35); }
+.btn-gold::after { background: rgba(255,255,255,0.15); }
 .btn-outline-dark { background: transparent; color: var(--black); border: 1.5px solid rgba(0,0,0,0.2); }
 .btn-outline-dark:hover { border-color: var(--black); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
 .btn-outline-dark::after { background: rgba(0,0,0,0.03); }
 .btn-full { width: 100%; justify-content: center; }
 
 /* ============================
-   SCROLL REVEAL
+   PREMIUM LINK UNDERLINES
    ============================ */
-.reveal { opacity: 0; transform: translateY(50px); transition: opacity .9s var(--ease-out), transform .9s var(--ease-out); }
+.link-underline {
+  position: relative; text-decoration: none; display: inline-block;
+}
+.link-underline::after {
+  content: ''; position: absolute; bottom: -2px; left: 0;
+  width: 0; height: 1px; background: currentColor;
+  transition: width .4s var(--ease-out);
+}
+.link-underline:hover::after { width: 100%; }
+
+/* ============================
+   PREMIUM CARD STYLES
+   ============================ */
+.product-card {
+  border-radius: 8px; overflow: hidden;
+  transition: transform .5s var(--ease-out), box-shadow .5s var(--ease-out);
+  background: var(--off-white);
+}
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+}
+.product-card-image {
+  position: relative; overflow: hidden;
+}
+.product-card-overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0); display: flex;
+  align-items: center; justify-content: center;
+  transition: background .4s var(--ease-out);
+}
+.product-card:hover .product-card-overlay {
+  background: rgba(0,0,0,0.3);
+}
+.product-card-overlay span {
+  opacity: 0; transform: translateY(10px);
+  transition: all .4s var(--ease-out);
+  color: #fff; font-size: 13px; font-weight: 500;
+  letter-spacing: .08em; text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.5);
+  padding: 10px 24px;
+}
+.product-card:hover .product-card-overlay span {
+  opacity: 1; transform: translateY(0);
+}
+
+/* ============================
+   GLASSMORPHISM NAVBAR
+   ============================ */
+.navbar-glass {
+  background: rgba(255,255,255,0.85) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  transition: background .3s, box-shadow .3s, backdrop-filter .3s;
+}
+.navbar-glass.scrolled {
+  box-shadow: 0 4px 30px rgba(0,0,0,0.06);
+}
+.navbar-glass[data-dark] {
+  background: rgba(0,0,0,0.7) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.navbar-glass[data-dark].scrolled {
+  background: rgba(0,0,0,0.85) !important;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+}
+
+/* ============================
+   PAGE TRANSITIONS
+   ============================ */
+.page-enter {
+  animation: pageIn .6s var(--ease-out) forwards;
+}
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Gold accent utilities */
+.text-gold { color: var(--gold); }
+.bg-gold { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); }
+.border-gold { border-color: var(--gold); }
+
+/* ============================
+   SCROLL REVEAL (enhanced)
+   ============================ */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease-out), transform 1s var(--ease-out); will-change: opacity, transform; }
 .reveal.in { opacity: 1; transform: translateY(0); }
 .reveal.d0 { transition-delay: 0s; }
-.reveal.d1 { transition-delay: .1s; }
-.reveal.d2 { transition-delay: .2s; }
-.reveal.d3 { transition-delay: .3s; }
-.reveal.d4 { transition-delay: .4s; }
-.reveal.d5 { transition-delay: .5s; }
-.reveal.d6 { transition-delay: .6s; }
+.reveal.d1 { transition-delay: .12s; }
+.reveal.d2 { transition-delay: .24s; }
+.reveal.d3 { transition-delay: .36s; }
+.reveal.d4 { transition-delay: .48s; }
+.reveal.d5 { transition-delay: .6s; }
+.reveal.d6 { transition-delay: .72s; }
+/* Fade-in-up variant */
+.reveal-fade { opacity: 0; transform: translateY(20px); transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); }
+.reveal-fade.in { opacity: 1; transform: translateY(0); }
+/* Scale-in variant */
+.reveal-scale { opacity: 0; transform: scale(0.95); transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); }
+.reveal-scale.in { opacity: 1; transform: scale(1); }
 
 /* ============================
    ANIMATIONS
@@ -116,6 +216,7 @@ body {
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+@keyframes splashProgressLine { from { width: 0%; } to { width: 100%; } }
 
 /* ============================
    MARQUEE

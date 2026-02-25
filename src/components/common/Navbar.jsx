@@ -1,12 +1,20 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-export const Navbar = ({ cartCount, onCartOpen, user, onAccountClick }) => {
+export const Navbar = ({ cartCount, onCartOpen, user, onAccountClick, splashComplete }) => {
 	const location = useLocation();
 	const [scrolled, setScrolled] = useState(false);
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 	const [isDark, setIsDark] = useState(false);
+	const [brandVisible, setBrandVisible] = useState(false);
 	const navRef = useRef(null);
+
+	// Show brand bar instantly when splash completes
+	useEffect(() => {
+		if (splashComplete) {
+			setBrandVisible(true);
+		}
+	}, [splashComplete]);
 
 	// Scroll listener
 	useEffect(() => {
@@ -132,11 +140,8 @@ export const Navbar = ({ cartCount, onCartOpen, user, onAccountClick }) => {
 					left: 0,
 					right: 0,
 					zIndex: 1000,
-					height: 68,
 					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'space-between',
-					padding: '0 clamp(16px, 4vw, 52px)',
+					flexDirection: 'column',
 					background: isDark ? 'rgba(0,0,0,0.85)' : 'rgba(255,255,255,0.95)',
 					backdropFilter: 'saturate(180%) blur(20px)',
 					WebkitBackdropFilter: 'saturate(180%) blur(20px)',
@@ -148,66 +153,130 @@ export const Navbar = ({ cartCount, onCartOpen, user, onAccountClick }) => {
 					transition: 'background .4s, box-shadow .4s',
 				}}
 			>
-				{/* Logo */}
-				<Link
-					to="/"
-					data-clickable
+				{/* ═══ ROW 1: Brand Bar — Black & White Rouge (centered) ═══ */}
+				<div
 					style={{
 						display: 'flex',
-						gap: 10,
-						cursor: 'pointer',
-						flexDirection: 'column',
-						alignItems: 'flex-start',
-						minWidth: 0,
-						textDecoration: 'none',
+						alignItems: 'baseline',
+						justifyContent: 'center',
+						padding: 'clamp(14px, 2vw, 22px) clamp(16px, 4vw, 52px)',
+						borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'}`,
+						opacity: brandVisible ? 1 : 0,
+						transition: 'opacity 0.8s ease',
 					}}
 				>
-					<div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-						<span
-							style={{
-								fontFamily: 'var(--font-display)',
-								fontSize: 'clamp(20px, 4vw, 28px)',
-								fontWeight: 400,
-								letterSpacing: '-0.02em',
-								color: isDark ? '#fff' : '#000',
-								transition: 'color .3s',
-								whiteSpace: 'nowrap',
-							}}
-						>
-							BWR
-						</span>
-						<span
-							style={{
-								fontFamily: 'var(--font-sans)',
-								fontSize: 'clamp(10px, 1.5vw, 13px)',
-								fontWeight: 600,
-								letterSpacing: '0.08em',
-								textTransform: 'uppercase',
-								color: isDark ? '#fff' : '#000',
-								transition: 'color .3s',
-								whiteSpace: 'nowrap',
-							}}
-						>
-							3D Works
-						</span>
-					</div>
-					<span
-						className='desktop-only'
-						style={{
-							fontFamily: 'var(--font-sans)',
-							fontSize: 'clamp(9px, 1.2vw, 11px)',
-							fontWeight: 400,
-							letterSpacing: '0.05em',
-							color: isDark ? 'rgba(255,255,255,0.7)' : '#333',
+					<Link to="/" data-clickable style={{ textDecoration: 'none', display: 'flex', alignItems: 'baseline', gap: 0 }}>
+						{/* B */}
+						<span style={{
+							fontFamily: "'Cormorant Garamond', Georgia, serif",
+							fontSize: 'clamp(28px, 4.5vw, 48px)',
+							fontWeight: 700,
+							color: isDark ? '#fff' : '#1a1a1a',
+							letterSpacing: '0.01em',
 							transition: 'color .3s',
-							marginTop: -2,
-							whiteSpace: 'nowrap',
-							display: 'none',
+						}}>B</span>
+						{/* lack */}
+						<span style={{
+							fontFamily: "'Cormorant Garamond', Georgia, serif",
+							fontSize: 'clamp(24px, 3.8vw, 42px)',
+							fontWeight: 400,
+							color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.3)',
+							letterSpacing: '0.02em',
+							transition: 'color .3s',
+						}}>lack</span>
+
+						{/* & */}
+						<span style={{
+							fontFamily: "'Cormorant Garamond', Georgia, serif",
+							fontSize: 'clamp(22px, 3.5vw, 38px)',
+							fontWeight: 300,
+							color: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.2)',
+							margin: '0 clamp(8px, 1.5vw, 16px)',
+							transition: 'color .3s',
+						}}>&amp;</span>
+
+						{/* W */}
+						<span style={{
+							fontFamily: "'Cormorant Garamond', Georgia, serif",
+							fontSize: 'clamp(28px, 4.5vw, 48px)',
+							fontWeight: 700,
+							color: isDark ? '#fff' : '#1a1a1a',
+							letterSpacing: '0.01em',
+							transition: 'color .3s',
+						}}>W</span>
+						{/* hite */}
+						<span style={{
+							fontFamily: "'Cormorant Garamond', Georgia, serif",
+							fontSize: 'clamp(24px, 3.8vw, 42px)',
+							fontWeight: 400,
+							color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.3)',
+							letterSpacing: '0.02em',
+							transition: 'color .3s',
+							marginRight: 'clamp(8px, 1.5vw, 16px)',
+						}}>hite</span>
+
+						{/* R */}
+						<span style={{
+							fontFamily: "'Cormorant Garamond', Georgia, serif",
+							fontSize: 'clamp(28px, 4.5vw, 48px)',
+							fontWeight: 700,
+							color: isDark ? '#fff' : '#1a1a1a',
+							letterSpacing: '0.01em',
+							transition: 'color .3s',
+						}}>R</span>
+						{/* ouge */}
+						<span style={{
+							fontFamily: "'Cormorant Garamond', Georgia, serif",
+							fontSize: 'clamp(24px, 3.8vw, 42px)',
+							fontWeight: 400,
+							color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.3)',
+							letterSpacing: '0.02em',
+							transition: 'color .3s',
+						}}>ouge</span>
+					</Link>
+				</div>
+
+				{/* ═══ ROW 2: Navigation + Actions ═══ */}
+				<div
+					style={{
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'space-between',
+						padding: '0 clamp(16px, 4vw, 52px)',
+						height: 44,
+					}}
+				>
+					{/* Left: BWR Works branding */}
+					<Link
+						to="/"
+						data-clickable
+						style={{
+							textDecoration: 'none',
+							display: 'flex',
+							alignItems: 'center',
+							gap: 8,
 						}}
 					>
-						Craft Objects That Mean Something
-					</span>
-				</Link>
+						<span style={{
+							fontFamily: "'Cormorant Garamond', Georgia, serif",
+							fontSize: 'clamp(14px, 2vw, 18px)',
+							fontWeight: 700,
+							letterSpacing: '0.08em',
+							color: isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.6)',
+							transition: 'color .3s',
+							whiteSpace: 'nowrap',
+						}}>BWR</span>
+						<span style={{
+							fontFamily: 'var(--font-sans)',
+							fontSize: 'clamp(9px, 1.3vw, 11px)',
+							fontWeight: 500,
+							letterSpacing: '0.12em',
+							textTransform: 'uppercase',
+							color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.35)',
+							transition: 'color .3s',
+							whiteSpace: 'nowrap',
+						}}>Works</span>
+					</Link>
 
 				{/* Desktop nav links */}
 				<ul
@@ -405,6 +474,7 @@ export const Navbar = ({ cartCount, onCartOpen, user, onAccountClick }) => {
 						/>
 					</button>
 				</div>
+			</div>{/* end row 2 */}
 			</nav>
 
 			{/* Mobile menu drawer */}
@@ -527,7 +597,7 @@ export const Navbar = ({ cartCount, onCartOpen, user, onAccountClick }) => {
 									marginBottom: 8,
 								}}
 							>
-								BWR 3D Works
+								BWR Works
 							</div>
 							<div
 								style={{

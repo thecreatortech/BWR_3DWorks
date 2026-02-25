@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 // ===== COMPONENTS =====
 import { CustomCursor } from './components/common/CustomCursor';
@@ -30,6 +30,8 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 // PAGE LOADING FALLBACK — Skeleton Loaders
 // =====================================================
 import { PageSkeleton } from './components/common/PageSkeleton';
+import { PageTransition } from './components/common/PageTransition';
+import { SplashScreen } from './components/common/SplashScreen';
 
 
 // =====================================================
@@ -40,7 +42,10 @@ function AppInner() {
 	const { cart, addToCart, removeFromCart, updateCartQty, clearCart, cartCount } = useCart();
 	const [cartOpen, setCartOpen] = useState(false);
 	const [toastMsg, setToastMsg] = useState('');
+	const [splashComplete, setSplashComplete] = useState(false);
 	const navigate = useNavigate();
+	const location = useLocation();
+	const isHomePage = location.pathname === '/';
 
 	const showToast = useCallback((msg) => {
 		setToastMsg(msg);
@@ -58,20 +63,27 @@ function AppInner() {
 	// Checkout now handles order saving internally via CartContext + AuthContext
 
 	useEffect(() => {
-		document.title = 'BWR 3D Works — Where Rebellion Meets Precision';
+		document.title = 'BWR Works — Where Rebellion Meets Precision';
 	}, []);
 
 	return (
 		<>
+			{!splashComplete && (
+				<SplashScreen
+					isHomePage={isHomePage}
+					onComplete={() => setSplashComplete(true)}
+				/>
+			)}
 
 			<CustomCursor />
 			<Toast message={toastMsg} />
 			<ScrollToTop />
 			<ScrollUpButton />
 
-			<Navbar cartCount={cartCount} onCartOpen={() => setCartOpen(true)} />
+			<Navbar cartCount={cartCount} onCartOpen={() => setCartOpen(true)} splashComplete={splashComplete} />
 
 			<Suspense fallback={<PageSkeleton />}>
+			<PageTransition>
 				<Routes>
 					<Route path='/' element={<Home addToCart={handleAddToCart} />} />
 					<Route path='/products' element={<Products addToCart={handleAddToCart} />} />
@@ -86,6 +98,7 @@ function AppInner() {
 					<Route path='/admin' element={<AdminDashboard />} />
 					<Route path='*' element={<NotFound />} />
 				</Routes>
+			</PageTransition>
 			</Suspense>
 
 			{cartOpen && (

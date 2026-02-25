@@ -16,110 +16,150 @@ export default function Home({ addToCart }) {
 
 	return (
 		<div style={{ minHeight: '100vh' }}>
-			{/* ===== HERO SECTION — Original Layout with 3D Car ===== */}
+			{/* ===== HERO SECTION — Split White/Black Premium Design ===== */}
+
+			{/* ── WHITE UPPER: Text Content ── */}
 			<section
-				data-dark
 				style={{
 					position: 'relative',
-					minHeight: '100vh',
-					display: 'flex',
-					alignItems: 'center',
-					background: '#000',
+					background: '#fafafa',
+					paddingTop: 'clamp(160px, 18vw, 200px)',
+					paddingBottom: 'clamp(60px, 8vw, 100px)',
+					paddingLeft: 'clamp(24px, 6vw, 80px)',
+					paddingRight: 'clamp(24px, 6vw, 80px)',
 					overflow: 'hidden',
-					padding: 'clamp(100px, 15vw, 140px) clamp(16px, 5vw, 52px)',
 				}}
 			>
-				<HeroBgCanvas />
+				{/* Subtle grid pattern for texture */}
+				<div style={{
+					position: 'absolute', inset: 0, opacity: 0.03,
+					backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)',
+					backgroundSize: '24px 24px',
+					pointerEvents: 'none',
+				}} />
 
 				<div style={{
-					position: 'relative', zIndex: 2, maxWidth: 1400, margin: '0 auto', width: '100%',
-					display: 'grid', gridTemplateColumns: '1fr', gap: 'clamp(32px, 5vw, 60px)', alignItems: 'center',
+					position: 'relative', zIndex: 2, maxWidth: 1200, margin: '0 auto',
+					display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'clamp(32px, 5vw, 60px)', alignItems: 'end',
 				}} className='grid-col-2'>
-					{/* Left: Content */}
-					<div style={{ textAlign: 'left' }}>
-						{/* Subtitle with line */}
+					{/* Left: Headline */}
+					<div>
+						{/* Subtitle */}
 						<div
 							className='reveal d0'
 							style={{
-								display: 'flex',
-								alignItems: 'center',
-								gap: 16,
-								marginBottom: 'clamp(24px, 4vw, 40px)',
+								display: 'flex', alignItems: 'center', gap: 16,
+								marginBottom: 'clamp(20px, 3vw, 32px)',
 							}}
 						>
-							<div style={{ width: 40, height: 1, background: 'rgba(255,255,255,0.3)' }} />
+							<div style={{ width: 40, height: 1, background: 'var(--gold)' }} />
 							<span style={{
-								fontSize: 'clamp(10px, 1.2vw, 12px)',
-								fontWeight: 600,
-								letterSpacing: '.2em',
-								textTransform: 'uppercase',
-								color: 'rgba(255,255,255,0.4)',
+								fontSize: 'clamp(10px, 1vw, 11px)',
+								fontWeight: 600, letterSpacing: '.25em',
+								textTransform: 'uppercase', color: 'var(--gold-dark, #8B7355)',
 							}}>
 								EST. 2024 — Precision Objects
 							</span>
 						</div>
+
 						<h1
 							className='reveal d1'
 							style={{
-								fontFamily: 'var(--font-display)',
-								fontSize: 'clamp(42px, 8vw, 90px)',
-								fontWeight: 400,
-								letterSpacing: '-0.02em',
-								lineHeight: 1.05,
-								color: '#fff',
-								marginBottom: 'clamp(20px, 4vw, 32px)',
+								fontFamily: "'Cormorant Garamond', Georgia, serif",
+								fontSize: 'clamp(48px, 9vw, 100px)',
+								fontWeight: 300,
+								letterSpacing: '-0.03em',
+								lineHeight: 1.0,
+								color: '#1a1a1a',
+								marginBottom: 0,
 							}}
 						>
 							Where<br />
-							Rebellion<br />
-							<em style={{ fontStyle: 'italic', color: 'rgba(255,255,255,0.5)' }}>Meets<br />Precision.</em>
+							<span style={{
+								fontWeight: 600,
+								background: 'linear-gradient(135deg, var(--gold), var(--gold-light))',
+								WebkitBackgroundClip: 'text',
+								WebkitTextFillColor: 'transparent',
+							}}>Rebellion</span><br />
+							<em style={{
+								fontStyle: 'italic',
+								color: 'rgba(0,0,0,0.3)',
+								fontWeight: 300,
+							}}>Meets<br />Precision.</em>
 						</h1>
+					</div>
+
+					{/* Right: Description + CTAs */}
+					<div style={{ paddingBottom: 'clamp(8px, 2vw, 20px)' }}>
 						<p
 							className='reveal d2'
 							style={{
-								fontSize: 'clamp(13px, 1.8vw, 16px)',
+								fontFamily: "'DM Sans', sans-serif",
+								fontSize: 'clamp(14px, 1.6vw, 17px)',
 								fontWeight: 300,
-								color: 'rgba(255,255,255,0.45)',
-								lineHeight: 1.7,
-								maxWidth: 400,
-								marginBottom: 'clamp(28px, 5vw, 48px)',
+								color: 'rgba(0,0,0,0.5)',
+								lineHeight: 1.8,
+								maxWidth: 380,
+								marginBottom: 'clamp(28px, 4vw, 40px)',
 							}}
 						>
 							3D printed objects engineered to outlast trends.
 							Every layer calculated. Every surface earned.
 						</p>
-						<div className='reveal d3' style={{ display: 'flex', flexDirection: 'column', gap: 12, maxWidth: 300 }}>
-							<Link to='/products' className='btn btn-white' data-clickable style={{
-								justifyContent: 'center', width: '100%',
+						<div className='reveal d3' style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+							<Link to='/products' data-clickable style={{
+								display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+								padding: '14px 36px',
+								background: '#1a1a1a', color: '#fff',
+								fontFamily: "'DM Sans', sans-serif",
+								fontSize: 'clamp(11px, 1.2vw, 13px)',
+								fontWeight: 500, letterSpacing: '0.1em',
+								textTransform: 'uppercase', textDecoration: 'none',
+								border: 'none', cursor: 'pointer',
+								transition: 'all 0.3s ease',
 							}}>
 								Explore Collection
 							</Link>
-							<Link to='/products/premium-architectural-nameplate' className='btn btn-dark' data-clickable style={{
-								justifyContent: 'center', width: '100%',
-								border: '1px solid rgba(255,255,255,0.15)',
+							<Link to='/products/premium-architectural-nameplate' data-clickable style={{
+								display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+								padding: '14px 36px',
+								background: 'transparent', color: '#1a1a1a',
+								fontFamily: "'DM Sans', sans-serif",
+								fontSize: 'clamp(11px, 1.2vw, 13px)',
+								fontWeight: 500, letterSpacing: '0.1em',
+								textTransform: 'uppercase', textDecoration: 'none',
+								border: '1px solid rgba(0,0,0,0.2)', cursor: 'pointer',
+								transition: 'all 0.3s ease',
 							}}>
 								Featured Drop
 							</Link>
 						</div>
-
-						{/* Scroll hint */}
-						<div className='reveal d4' style={{
-							marginTop: 'clamp(40px, 6vw, 60px)',
-							display: 'flex', alignItems: 'center', gap: 12,
-						}}>
-							<div style={{ width: 40, height: 1, background: 'rgba(255,255,255,0.2)' }} />
-							<span style={{
-								fontSize: 10, fontWeight: 600, letterSpacing: '.18em',
-								textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)',
-							}}>
-								Scroll to Discover
-							</span>
-						</div>
 					</div>
+				</div>
 
-					{/* Right: 3D McLaren Car Viewer */}
+				{/* Diagonal slice transition to black */}
+				<div style={{
+					position: 'absolute', bottom: 0, left: 0, right: 0, height: 80,
+					background: 'linear-gradient(to bottom, transparent, #0a0a0a)',
+					pointerEvents: 'none',
+				}} />
+			</section>
+
+			{/* ── BLACK LOWER: 3D Car Showcase ── */}
+			<section
+				data-dark
+				style={{
+					position: 'relative',
+					background: '#0a0a0a',
+					padding: 'clamp(40px, 6vw, 80px) clamp(24px, 6vw, 80px) clamp(60px, 8vw, 100px)',
+					overflow: 'hidden',
+				}}
+			>
+				<div style={{
+					maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 2,
+				}}>
 					<div style={{
-						height: 'clamp(300px, 50vw, 550px)',
+						height: 'clamp(350px, 55vw, 600px)',
 						position: 'relative',
 					}}>
 						<AnimatedCarViewer
@@ -128,24 +168,40 @@ export default function Home({ addToCart }) {
 						/>
 						{/* Drag hint */}
 						<div style={{
-							position: 'absolute', bottom: 16, right: 16,
-							display: 'flex', alignItems: 'center', gap: 8,
+							position: 'absolute', bottom: 20, right: 20,
+							display: 'flex', alignItems: 'center', gap: 10,
 						}}>
 							<span style={{
-								fontSize: 10, fontWeight: 600, letterSpacing: '.12em',
+								fontSize: 10, fontWeight: 600, letterSpacing: '.15em',
 								textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)',
 							}}>
 								Drag to Rotate
 							</span>
 							<div style={{
-								width: 24, height: 24, borderRadius: '50%',
-								border: '1px solid rgba(255,255,255,0.2)',
+								width: 28, height: 28, borderRadius: '50%',
+								border: '1px solid rgba(255,255,255,0.15)',
 								display: 'flex', alignItems: 'center', justifyContent: 'center',
-								fontSize: 10, color: 'rgba(255,255,255,0.3)',
+								fontSize: 12, color: 'rgba(255,255,255,0.25)',
 							}}>
 								↻
 							</div>
 						</div>
+					</div>
+
+					{/* Scroll hint */}
+					<div className='reveal d4' style={{
+						marginTop: 'clamp(24px, 3vw, 40px)',
+						display: 'flex', alignItems: 'center', gap: 12,
+						justifyContent: 'center',
+					}}>
+						<div style={{ width: 40, height: 1, background: 'rgba(255,255,255,0.12)' }} />
+						<span style={{
+							fontSize: 10, fontWeight: 600, letterSpacing: '.2em',
+							textTransform: 'uppercase', color: 'rgba(255,255,255,0.2)',
+						}}>
+							Scroll to Discover
+						</span>
+						<div style={{ width: 40, height: 1, background: 'rgba(255,255,255,0.12)' }} />
 					</div>
 				</div>
 			</section>
@@ -488,7 +544,7 @@ export default function Home({ addToCart }) {
 						fontWeight: 700,
 						letterSpacing: '.16em',
 						textTransform: 'uppercase',
-						color: 'rgba(0,0,0,0.3)',
+						color: 'var(--gold)',
 						marginBottom: 'clamp(16px, 3vw, 24px)',
 						textAlign: 'center',
 					}}
@@ -622,6 +678,70 @@ export default function Home({ addToCart }) {
 						<Link to='/contact' className='btn btn-ghost' data-clickable>
 							Custom Order
 						</Link>
+					</div>
+				</div>
+			</section>
+
+			{/* ===== THE BWR PROCESS ===== */}
+			<section data-dark style={{
+				padding: 'clamp(60px, 10vw, 120px) clamp(16px, 5vw, 52px)',
+				background: '#0a0a0a', color: '#fff', position: 'relative', overflow: 'hidden',
+			}}>
+				{/* Decorative gold line */}
+				<div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: 60, height: 2, background: 'linear-gradient(90deg, transparent, var(--gold), transparent)' }} />
+
+				<div style={{ maxWidth: 1200, margin: '0 auto' }}>
+					<div className='reveal d0' style={{
+						fontSize: 'clamp(9px, 1.2vw, 11px)', fontWeight: 700,
+						letterSpacing: '.2em', textTransform: 'uppercase',
+						color: 'var(--gold)', textAlign: 'center',
+						marginBottom: 'clamp(12px, 3vw, 20px)',
+					}}>Our Process</div>
+					<h2 className='reveal d1' style={{
+						fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 5vw, 44px)',
+						fontWeight: 400, color: '#fff', textAlign: 'center',
+						marginBottom: 'clamp(50px, 8vw, 80px)',
+					}}>From Vision to Object</h2>
+
+					<div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 'clamp(20px, 4vw, 40px)', position: 'relative' }} className='grid-col-2'>
+						{/* Connecting line */}
+						<div className='desktop-only' style={{
+							position: 'absolute', top: 32, left: '12.5%', right: '12.5%',
+							height: 1, background: 'linear-gradient(90deg, transparent, var(--gold), var(--gold), transparent)',
+							opacity: 0.3,
+						}} />
+						{[
+							{ num: '01', title: 'Design', desc: 'Every object starts with a conversation. We translate your vision into precision CAD models, iterating until every detail is perfect.' },
+							{ num: '02', title: 'Engineer', desc: 'Structural analysis, material selection, and layer optimization. We engineer for beauty and longevity — 0.04mm precision.' },
+							{ num: '03', title: 'Craft', desc: 'Multi-day prints on professional-grade machines. Each layer is monitored. Hand-finishing, coating, and quality inspection follow.' },
+							{ num: '04', title: 'Deliver', desc: 'Premium packaging with your personalized message. Insured shipping across India. Unboxing designed to feel special.' },
+						].map((step, i) => (
+							<div key={i} className={`reveal d${i}`} style={{ textAlign: 'center' }}>
+								{/* Number circle */}
+								<div style={{
+									width: 64, height: 64, borderRadius: '50%',
+									border: '1.5px solid var(--gold)', margin: '0 auto clamp(16px, 3vw, 24px)',
+									display: 'flex', alignItems: 'center', justifyContent: 'center',
+									background: 'rgba(201,169,110,0.06)',
+									transition: 'all .4s var(--ease-out)',
+								}}>
+									<span style={{
+										fontFamily: 'var(--font-display)', fontSize: 'clamp(16px, 2vw, 22px)',
+										fontWeight: 400, color: 'var(--gold)',
+									}}>{step.num}</span>
+								</div>
+								<h3 style={{
+									fontFamily: 'var(--font-display)',
+									fontSize: 'clamp(18px, 2.5vw, 24px)', fontWeight: 400,
+									color: '#fff', marginBottom: 12,
+								}}>{step.title}</h3>
+								<p style={{
+									fontSize: 'clamp(12px, 1.4vw, 14px)', fontWeight: 300,
+									lineHeight: 1.7, color: 'rgba(255,255,255,0.4)',
+									maxWidth: 260, margin: '0 auto',
+								}}>{step.desc}</p>
+							</div>
+						))}
 					</div>
 				</div>
 			</section>

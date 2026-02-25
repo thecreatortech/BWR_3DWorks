@@ -111,24 +111,31 @@ export default function Products({ addToCart }) {
 					{/* Product grid */}
 					<div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'clamp(16px, 4vw, 40px)' }} className='grid-col-3'>
 						{filtered.map((prod, i) => (
-							<div key={prod.id} className={`reveal d${i % 3}`}>
-								<Link to={`/products/${prod.slug}`} style={{
+							<div key={prod.id} className={`reveal d${i % 3} product-card`}>
+								<Link to={`/products/${prod.slug}`} className="product-card-image" style={{
 									display: 'flex', alignItems: 'center', justifyContent: 'center',
 									height: 'clamp(250px, 50vw, 380px)',
-									marginBottom: 'clamp(12px, 3vw, 20px)', borderRadius: 4,
 									overflow: 'hidden', textDecoration: 'none', position: 'relative',
 									background: '#f7f7f7',
 								}} onMouseEnter={() => setHoveredId(prod.id)} onMouseLeave={() => setHoveredId(null)}>
 									<img src={prod.image} alt={prod.name} style={{
 										width: '100%', height: '100%', objectFit: 'contain',
 										transition: 'transform .6s var(--ease-out)',
-										transform: hoveredId === prod.id ? 'scale(1.05)' : 'scale(1)',
+										transform: hoveredId === prod.id ? 'scale(1.08)' : 'scale(1)',
 									}} />
+									{/* Hover overlay */}
+									<div className="product-card-overlay">
+										<span>View Details</span>
+									</div>
 									{prod.badge && (
 										<span style={{
 											position: 'absolute', top: 12, left: 12,
 											fontSize: 9, fontWeight: 700, letterSpacing: '.1em',
-											textTransform: 'uppercase', background: '#000', color: '#fff', padding: '4px 10px',
+											textTransform: 'uppercase', padding: '5px 12px', borderRadius: 2,
+											background: (prod.badge === 'Premium' || prod.badge === 'Limited')
+												? 'linear-gradient(135deg, var(--gold), var(--gold-dark))'
+												: '#000',
+											color: '#fff',
 										}}>
 											{prod.badge}
 										</span>
